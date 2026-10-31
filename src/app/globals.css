@@ -1,26 +1,106 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #10233f;
+  --card: #ffffff;
+  --card-foreground: #10233f;
+  --popover: #ffffff;
+  --popover-foreground: #10233f;
+  --primary: #01592d;
+  --primary-foreground: #ffffff;
+  --secondary: #e8fbf1;
+  --secondary-foreground: #01592d;
+  --muted: #f3faf6;
+  --muted-foreground: #5b7267;
+  --accent: #d7f7e6;
+  --accent-foreground: #01592d;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #d9ece3;
+  --input: #d9ece3;
+  --ring: #0b7a47;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: #04120b;
+  --foreground: #eaf8ef;
+  --card: #071a10;
+  --card-foreground: #eaf8ef;
+  --popover: #071a10;
+  --popover-foreground: #eaf8ef;
+  --primary: #34d399;
+  --primary-foreground: #04120b;
+  --secondary: #0d2a1b;
+  --secondary-foreground: #d8fbe8;
+  --muted: #0a2115;
+  --muted-foreground: #9cc9b0;
+  --accent: #123826;
+  --accent-foreground: #d8fbe8;
+  --destructive: #f87171;
+  --destructive-foreground: #1a0505;
+  --border: #1b4630;
+  --input: #1b4630;
+  --ring: #34d399;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: #01592d;
+  --color-brand-strong: #0b7a47;
+  --color-ink: #10233f;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    @apply scroll-smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  ::selection {
+    background: #b9f4d4;
+    color: #013820;
+  }
 }
