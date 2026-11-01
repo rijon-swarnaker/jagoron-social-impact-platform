@@ -55,11 +55,8 @@ export default function FooterPage() {
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none -z-20 object-cover opacity-70 dark:opacity-[0.07]"
+        className="pointer-events-none -z-20 object-cover  dark:opacity-[0.07]"
       />
-
-      {/* Background Overlay */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#f2fff9]/90 via-white/70 to-[#dff5e8]/90 dark:from-[#07140e]/95 dark:via-[#0b1c13]/95 dark:to-[#10291b]/95" />
 
       {/* Decorative Glow */}
       <div className="pointer-events-none absolute -top-32 left-1/4 -z-10 size-80 rounded-full bg-emerald-300/15 blur-[100px] dark:bg-emerald-500/[0.07]" />
@@ -109,7 +106,7 @@ export default function FooterPage() {
             {/* Quick Links */}
             <div className="hidden border-t border-[#b7e5cc] pt-8 md:block md:border-t-0 md:pt-0 lg:border-l lg:border-[#b7e5cc] lg:px-6 xl:px-8 dark:border-[#294b38]">
 
-              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-400">
+              <h2 className="flex items-center gap-2.5 text-lg font-bold text-brand dark:text-emerald-400">
                 <Home className="size-5" fill="currentColor" strokeWidth={2} />
                 Quick Links
               </h2>
@@ -119,10 +116,10 @@ export default function FooterPage() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-2.5 text-sm font-medium text-[#183b2b] transition-all duration-200 hover:translate-x-1 hover:text-[#01592d] dark:text-[#c5dbce] dark:hover:text-emerald-400"
+                      className="group inline-flex items-center gap-2.5 text-sm font-medium text-[#183b2b] transition-all duration-200 hover:translate-x-1 hover:text-brand dark:text-[#c5dbce] dark:hover:text-emerald-400"
                     >
                       <ChevronRight
-                        className="size-3.5 shrink-0 text-[#0b7a47] transition-transform group-hover:translate-x-0.5 dark:text-emerald-400"
+                        className="size-3.5 shrink-0 text-brand-strong transition-transform group-hover:translate-x-0.5 dark:text-emerald-400"
                         strokeWidth={2.5}
                       />
                       {link.label}
@@ -135,7 +132,7 @@ export default function FooterPage() {
             {/* Social Links */}
             <div className="border-[#b7e5cc] pt-8 md:col-span-1 md:border-t-0 md:pt-0 lg:border-l lg:border-[#b7e5cc] lg:px-6 xl:px-8 dark:border-[#294b38]">
 
-              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-400">
+              <h2 className="flex items-center gap-2.5 text-lg font-bold text-brand dark:text-emerald-400">
                 <Users className="size-5" fill="currentColor" strokeWidth={2} />
                 Follow Us
               </h2>
@@ -151,13 +148,13 @@ export default function FooterPage() {
                     className={`
                       flex size-10  shrink-0 items-center justify-center
                       rounded-4xl border border-[#ccebd9]
-                      bg-white/85 text-[#01592d]
+                      bg-white/85 text-brand
                       shadow-[0_2px_8px_rgba(1,89,45,0.08)]
                       transition-all duration-300
-                      hover:-translate-y-1 hover:border-[#01592d]
-                      hover:bg-[#01592d] hover:text-white
+                      hover:-translate-y-1 hover:border-brand
+                      hover:bg-brand hover:text-white
                       focus-visible:outline-none focus-visible:ring-2
-                      focus-visible:ring-[#0b7a47] focus-visible:ring-offset-2
+                      focus-visible:ring-brand-strong focus-visible:ring-offset-2
                       dark:border-[#315541]
                       dark:bg-[#10251a]
                       dark:text-emerald-300
@@ -185,7 +182,7 @@ export default function FooterPage() {
                 Let&apos;s build a stronger community together!
               </p>
 
-              <div className="mt-3 hidden h-0.5 w-40 max-w-full rounded-full bg-[#0b7a47]/70 md:block dark:bg-emerald-500/70" />
+              <div className="mt-3 hidden h-0.5 w-40 max-w-full rounded-full bg-brand-strong/70 md:block dark:bg-emerald-500/70" />
             </div>
           </div>
         </div>

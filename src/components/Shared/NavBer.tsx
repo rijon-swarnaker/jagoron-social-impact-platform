@@ -1,21 +1,15 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  CalendarDays,
-  Home,
-  LogIn,
-  Menu,
-  X,
-  ChevronRight,
-} from "lucide-react";
+import { CalendarDays, Home, LogIn, Menu, X, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
+import { useSession } from "@/lib/auth-client";
+import UserMenu from "./UserMenu";
 
 const navItems = [
   { label: "Home", href: "/", icon: Home },
@@ -27,11 +21,13 @@ const navItems = [
 ] as const;
 
 export default function NavBer() {
+  const { data: session } = useSession();
+  const user = session?.user;
+  console.log(user);
+
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
- 
- 
   // Close menu with Escape key
   useEffect(() => {
     if (!mobileOpen) return;
@@ -52,14 +48,14 @@ export default function NavBer() {
       <nav
         aria-label="Primary navigation"
         className={cn(
-          "relative mx-auto flex h-16 sm:h-[76px] lg:h-[84px]",
-          "max-w-[1500px] items-center justify-between",
+          "relative mx-auto flex h-16 sm:h-19 lg:h-21",
+          "max-w-375 items-center justify-between",
           "rounded-2xl border border-emerald-100/80",
           "bg-white/90 px-3 sm:px-5 lg:px-8 xl:px-10",
           "shadow-[0_8px_35px_-18px_rgba(1,89,45,0.25)]",
           "backdrop-blur-xl",
           "dark:border-emerald-900/70 dark:bg-[#071a10]/90",
-          "dark:shadow-black/20"
+          "dark:shadow-black/20",
         )}
       >
         {/* Logo */}
@@ -100,16 +96,14 @@ export default function NavBer() {
                     "focus-visible:ring-emerald-600",
                     isActive
                       ? "bg-emerald-700 text-white shadow-md shadow-emerald-900/15 dark:bg-emerald-500 dark:text-emerald-950"
-                      : "text-slate-600 hover:bg-white hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-900/60 dark:hover:text-emerald-200"
+                      : "text-slate-600 hover:bg-white hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-900/60 dark:hover:text-emerald-200",
                   )}
                 >
                   <Icon
                     size={18}
                     strokeWidth={2.2}
                     fill={
-                      isActive && item.href === "/"
-                        ? "currentColor"
-                        : "none"
+                      isActive && item.href === "/" ? "currentColor" : "none"
                     }
                   />
                   {item.label}
@@ -120,23 +114,30 @@ export default function NavBer() {
         </div>
 
         {/* Desktop Actions */}
-        <div className="relative z-10 hidden md:flex items-center gap-3 lg:gap-4">
+        <div className={`${
+          user ? "relative z-10 flex items-center gap-3 lg:gap-4": "relative z-10 hidden md:flex items-center gap-3 lg:gap-4"
+        }`}>
           <ThemeToggle />
 
-          <div className="hidden lg:block h-9 w-px bg-emerald-100 dark:bg-emerald-900" />
+          <div className=" h-9 w-px bg-emerald-100 dark:bg-emerald-900" />
 
-          <Link
+          {
+            user ? <>
+            <UserMenu/>
+            </>:<>
+             <div>
+             <Link
             href="/login"
             className={cn(
               "group inline-flex h-10 lg:h-12 items-center gap-2",
-              "rounded-full bg-gradient-to-r from-[#087a46] to-[#01592d]",
+              "rounded-full bg-linear-to-r from-[#087a46] to-brand",
               "px-4 lg:px-6 text-xs lg:text-sm font-semibold text-white",
               "shadow-lg shadow-emerald-900/15",
               "transition-all duration-300",
               "hover:-translate-y-0.5 hover:shadow-xl",
               "hover:shadow-emerald-900/25",
               "focus-visible:outline-none focus-visible:ring-2",
-              "focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+              "focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
             )}
           >
             <LogIn size={18} />
@@ -146,13 +147,19 @@ export default function NavBer() {
               className="transition-transform duration-300 group-hover:translate-x-1"
             />
           </Link>
+          </div>
+            </>
+          }
+
+         
+
+         
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="relative z-10 flex items-center gap-2 md:hidden">
+        <div className={`${user? 'hidden':'relative  z-10 flex items-center gap-2 md:hidden'}`}>
+          <ThemeToggle />
 
-          <ThemeToggle  />
-          
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -169,7 +176,7 @@ export default function NavBer() {
               "focus-visible:outline-none focus-visible:ring-2",
               "focus-visible:ring-emerald-600",
               "dark:border-emerald-900 dark:bg-emerald-950",
-              "dark:text-emerald-200 dark:hover:bg-emerald-900"
+              "dark:text-emerald-200 dark:hover:bg-emerald-900",
             )}
           >
             {mobileOpen ? <X size={21} /> : <Menu size={21} />}
@@ -192,13 +199,10 @@ export default function NavBer() {
           "dark:border-emerald-900 dark:bg-[#071a10]/95",
           mobileOpen
             ? "visible translate-y-0 scale-100 opacity-100"
-            : "invisible pointer-events-none -translate-y-2 scale-[0.98] opacity-0"
+            : "invisible pointer-events-none -translate-y-2 scale-[0.98] opacity-0",
         )}
       >
-        <nav
-          aria-label="Mobile navigation"
-          className="flex flex-col gap-1.5"
-        >
+        <nav aria-label="Mobile navigation" className="flex flex-col gap-1.5">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
@@ -214,7 +218,7 @@ export default function NavBer() {
                   "text-sm font-semibold transition-all duration-200",
                   isActive
                     ? "bg-emerald-700 text-white shadow-sm dark:bg-emerald-500 dark:text-emerald-950"
-                    : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-950"
+                    : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-950",
                 )}
               >
                 <Icon size={19} />
@@ -235,7 +239,6 @@ export default function NavBer() {
           <span className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-emerald-200/70">
             Appearance
           </span>
-          
         </div>
 
         <Link
@@ -243,9 +246,9 @@ export default function NavBer() {
           onClick={() => setMobileOpen(false)}
           className={cn(
             "mt-2 flex h-12 w-full items-center justify-center gap-2.5",
-            " rounded-2xl bg-gradient-to-r from-[#087a46] to-[#01592d]",
+            " rounded-2xl bg-linear-to-r from-[#087a46] to-brand",
             "text-sm font-semibold text-white shadow-md",
-            "transition-all duration-200 hover:brightness-110"
+            "transition-all duration-200 hover:brightness-110",
           )}
         >
           <LogIn size={18} />
