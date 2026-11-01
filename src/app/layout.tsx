@@ -1,11 +1,12 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 
-import Footer from "@/components/Shared/Footer";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import NavBer from "@/components/Shared/NavBer";
 import FooterPage from "@/components/Shared/Footer";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -26,13 +27,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
@@ -42,10 +44,13 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <NavBer/>
-          <main>{children}</main>
-           <Toaster position="top-right" />
-          <FooterPage/>
+          <NavBer />
+
+          <main className="flex-1">{children}</main>
+
+          <Toaster position="top-right" />
+
+          <FooterPage />
         </ThemeProvider>
       </body>
     </html>

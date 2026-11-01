@@ -23,7 +23,7 @@ const navItems = [
 export default function NavBer() {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log(user);
+ 
 
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
