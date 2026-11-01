@@ -23,7 +23,6 @@ const navItems = [
 export default function NavBer() {
   const { data: session } = useSession();
   const user = session?.user;
- 
 
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -44,14 +43,14 @@ export default function NavBer() {
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
+    <header className="sticky top-0 z-50 px-3 bg-[#BDEFC9]/50  pt-3 sm:px-5 sm:pt-4">
       <nav
         aria-label="Primary navigation"
         className={cn(
-          "relative mx-auto flex h-16 sm:h-19 lg:h-21",
+          "relative mx-auto flex min-h-16 py-6 sm:h-19 sm:py-0 lg:h-21",
           "max-w-375 items-center justify-between",
           "rounded-2xl border border-emerald-100/80",
-          "bg-white/90 px-3 sm:px-5 lg:px-8 xl:px-10",
+          "bg-white/90 px-3  sm:px-5 lg:px-8 xl:px-10",
           "shadow-[0_8px_35px_-18px_rgba(1,89,45,0.25)]",
           "backdrop-blur-xl",
           "dark:border-emerald-900/70 dark:bg-[#071a10]/90",
@@ -62,7 +61,7 @@ export default function NavBer() {
         <Link
           href="/"
           aria-label="Jagoron home"
-          className="relative z-10 shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+          className="relative z-10  shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
         >
           <Image
             src="/Images/Jagoron Social Impact Logo.png"
@@ -114,50 +113,54 @@ export default function NavBer() {
         </div>
 
         {/* Desktop Actions */}
-        <div className={`${
-          user ? "relative z-10 flex items-center gap-3 lg:gap-4": "relative z-10 hidden md:flex items-center gap-3 lg:gap-4"
-        }`}>
+        <div
+          className={`${
+            user
+              ? "relative z-10 flex items-center gap-3 lg:gap-4"
+              : "relative z-10 hidden md:flex items-center gap-3 lg:gap-4"
+          }`}
+        >
           <ThemeToggle />
 
           <div className=" h-9 w-px bg-emerald-100 dark:bg-emerald-900" />
 
-          {
-            user ? <>
-            <UserMenu/>
-            </>:<>
-             <div>
-             <Link
-            href="/login"
-            className={cn(
-              "group inline-flex h-10 lg:h-12 items-center gap-2",
-              "rounded-full bg-linear-to-r from-[#087a46] to-brand",
-              "px-4 lg:px-6 text-xs lg:text-sm font-semibold text-white",
-              "shadow-lg shadow-emerald-900/15",
-              "transition-all duration-300",
-              "hover:-translate-y-0.5 hover:shadow-xl",
-              "hover:shadow-emerald-900/25",
-              "focus-visible:outline-none focus-visible:ring-2",
-              "focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
-            )}
-          >
-            <LogIn size={18} />
-            Login
-            <ChevronRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </Link>
-          </div>
+          {user ? (
+            <>
+              <UserMenu />
             </>
-          }
-
-         
-
-         
+          ) : (
+            <>
+              <div>
+                <Link
+                  href="/login"
+                  className={cn(
+                    "group inline-flex h-10 lg:h-12 items-center gap-2",
+                    "rounded-full bg-linear-to-r from-[#087a46] to-brand",
+                    "px-4 lg:px-6 text-xs lg:text-sm font-semibold text-white",
+                    "shadow-lg shadow-emerald-900/15",
+                    "transition-all duration-300",
+                    "hover:-translate-y-0.5 hover:shadow-xl",
+                    "hover:shadow-emerald-900/25",
+                    "focus-visible:outline-none focus-visible:ring-2",
+                    "focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
+                  )}
+                >
+                  <LogIn size={18} />
+                  Login
+                  <ChevronRight
+                    size={16}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
-        <div className={`${user? 'hidden':'relative  z-10 flex items-center gap-2 md:hidden'}`}>
+        <div
+          className={`${user ? "hidden" : "relative  z-10 flex items-center gap-2 md:hidden"}`}
+        >
           <ThemeToggle />
 
           <button
@@ -190,7 +193,7 @@ export default function NavBer() {
         aria-hidden={!mobileOpen}
         inert={!mobileOpen}
         className={cn(
-          "absolute inset-x-3 top-full z-50 mt-2 sm:inset-x-5",
+          "absolute inset-x-3  top-full z-50 mt-2 sm:inset-x-5",
           "origin-top overflow-hidden rounded-2xl",
           "border border-emerald-100 bg-white/95 p-3",
           "shadow-[0_20px_50px_-15px_rgba(1,89,45,0.25)]",
