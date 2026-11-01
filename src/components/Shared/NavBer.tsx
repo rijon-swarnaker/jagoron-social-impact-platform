@@ -43,11 +43,11 @@ export default function NavBer() {
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 px-3 bg-[#BDEFC9]/50  pt-3 sm:px-5 sm:pt-4">
+    <header className="sticky top-0 z-50 px-3 bg-[#BDEFC9]/80 dark:bg-[#13251A]/80  pt-3 sm:px-5 sm:pt-4">
       <nav
         aria-label="Primary navigation"
         className={cn(
-          "relative mx-auto flex min-h-16 py-6 sm:h-19 sm:py-0 lg:h-21",
+          "relative mx-auto flex min-h-16 py-5 sm:h-19 sm:py-0 lg:h-21",
           "max-w-375 items-center justify-between",
           "rounded-2xl border border-emerald-100/80",
           "bg-white/90 px-3  sm:px-5 lg:px-8 xl:px-10",

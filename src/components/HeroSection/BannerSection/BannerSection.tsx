@@ -3,19 +3,19 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
-  Globe2,
+  CalendarDaysIcon,
   Heart,
   Leaf,
   Plus,
-  Users,
+  UserGroup,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const features = [
-  { icon: Users, title: "Community", caption: "Grow Together", solid: true },
-  { icon: Heart, title: "Impact", caption: "Create Change", solid: true },
-  { icon: Globe2, title: "Together", caption: "Stronger", solid: false },
+  { icon: UserGroup, Number: "10k", caption: "Active Member", solid: true },
+  { icon: CalendarDaysIcon, Number: "400+", caption: "Event Hosted", solid: true },
+  { icon: Heart, Number: "99%", caption: "Positive", solid: false },
 ] as const;
 
 export default function BannerSection() {
@@ -34,7 +34,7 @@ export default function BannerSection() {
       {/* Skyline strip (mobile / tablet portrait) */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-20 h-36 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent_0%,black_42%)] sm:h-48 lg:hidden dark:opacity-[0.14]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-20 h-36 overflow-hidden mask-[linear-gradient(to_bottom,transparent_0%,black_42%)] sm:h-48 lg:hidden dark:opacity-[0.14]"
       >
         <Image
           src="/Images/Hero-Bagckground-img.png"
@@ -64,7 +64,7 @@ export default function BannerSection() {
 
       <div className="relative mx-auto grid max-w-[1600px] items-center gap-9 px-5 pt-6 pb-40 sm:px-8 sm:pt-10 sm:pb-52 lg:grid-cols-[1.02fr_1fr] lg:gap-6 lg:px-12 lg:pt-12 lg:pb-32 xl:gap-10 xl:px-16 xl:pb-40">
         {/* Copy */}
-        <div className="relative z-10 w-full max-w-[42rem]">
+        <div className="relative z-10 w-full max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200/90 bg-white/80 px-3.5 py-1.5 text-[0.7rem] font-semibold text-brand shadow-sm shadow-emerald-900/5 backdrop-blur sm:px-4 sm:py-2 sm:text-sm dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">
             <Leaf
               className="size-4 shrink-0"
@@ -74,7 +74,7 @@ export default function BannerSection() {
             Together, We Can Make a Difference
           </span>
 
-          <h1 className="mt-5 text-5xl  leading-[1.05] font-extrabold tracking-[-0.035em] text-[#10233f] sm:text-5xl lg:mt-6 lg:text-[3.25rem] xl:text-[4rem] dark:text-white">
+          <h1 className="mt-5 text-5xl  leading-[1.05] font-extrabold tracking-[-0.035em] text-ink sm:text-5xl lg:mt-6 lg:text-[3.25rem] xl:text-[4rem] dark:text-white">
             <span className="block ">Small Actions.</span>
             <span className="block text-brand dark:text-emerald-400">
               Big Changes.
@@ -82,7 +82,7 @@ export default function BannerSection() {
             <span className="block">A Better Tomorrow.</span>
           </h1>
 
-          <p className="mt-4 max-w-[34rem] text-[0.95rem] leading-relaxed text-[#3d5248] sm:text-base lg:mt-5 lg:text-lg dark:text-emerald-100/75">
+          <p className="mt-4 max-w-136 text-[0.95rem] leading-relaxed text-[#3d5248] sm:text-base lg:mt-5 lg:text-lg dark:text-emerald-100/75">
             Join a community of changemakers, discover meaningful events, and
             turn your passion into action.
           </p>
@@ -115,7 +115,7 @@ export default function BannerSection() {
               const Icon = feature.icon;
 
               return (
-                <div key={feature.title} className="flex items-center">
+                <div key={feature.Number} className="flex items-center">
                   {index > 0 && (
                     <span
                       aria-hidden="true"
@@ -130,8 +130,8 @@ export default function BannerSection() {
                   />
 
                   <div>
-                    <p className="text-sm font-bold text-[#10233f] dark:text-white">
-                      {feature.title}
+                    <p className="text-lg font-bold text-ink dark:text-white">
+                      {feature.Number}
                     </p>
                     <p className="text-xs text-[#5b7267] dark:text-emerald-100/60">
                       {feature.caption}
@@ -144,7 +144,7 @@ export default function BannerSection() {
         </div>
 
         {/* Visual */}
-        <div className="relative z-10 mx-auto w-full max-w-[34rem] lg:max-w-none">
+        <div className="relative z-10 mx-auto w-full max-w-136 lg:max-w-none">
           {/* Organic halo behind the photo */}
           <div
             aria-hidden="true"
@@ -156,7 +156,7 @@ export default function BannerSection() {
           />
 
           <div className="relative">
-            <div className="relative aspect-4/3 overflow-hidden rounded-[2rem] shadow-[0_35px_70px_-35px_rgba(1,89,45,0.5)] ring-1 ring-white/70 sm:aspect-5/4 sm:rounded-[2.75rem] lg:aspect-6/5 lg:rounded-[3.5rem] dark:shadow-black/50 dark:ring-emerald-900/60">
+            <div className="relative aspect-4/3 overflow-hidden rounded-4xl shadow-[0_35px_70px_-35px_rgba(1,89,45,0.5)] ring-1 ring-white/70 sm:aspect-5/4 sm:rounded-[2.75rem] lg:aspect-6/5 lg:rounded-[3.5rem] dark:shadow-black/50 dark:ring-emerald-900/60">
               <Image
                 src="/Images/Hero-img.png"
                 alt="Jagoron volunteers planting a sapling together in a green field"
@@ -186,7 +186,7 @@ export default function BannerSection() {
               </span>
 
               <span className="block">
-                <span className="block text-xs font-bold text-[#10233f] sm:text-sm dark:text-white">
+                <span className="block text-xs font-bold text-ink sm:text-sm dark:text-white">
                   Make an Impact
                 </span>
                 <span className="flex items-center gap-1 text-[0.65rem] font-medium text-[#5b7267] sm:text-xs dark:text-emerald-100/60">
@@ -210,7 +210,7 @@ export default function BannerSection() {
               </span>
 
               <span className="block">
-                <span className="block text-xs font-bold text-[#10233f] sm:text-sm dark:text-white">
+                <span className="block text-xs font-bold text-ink sm:text-sm dark:text-white">
                   Be the Reason for Change
                 </span>
                 <span className="block text-[0.65rem] font-medium text-[#5b7267] sm:text-xs dark:text-emerald-100/60">
@@ -229,7 +229,7 @@ export default function BannerSection() {
 
               return (
                 <li
-                  key={feature.title}
+                  key={feature.Number}
                   className={cn(
                     "flex flex-col items-center gap-1 px-1 text-center",
                     index > 0 &&
@@ -241,8 +241,8 @@ export default function BannerSection() {
                     strokeWidth={feature.solid ? 1.5 : 2}
                     fill={feature.solid ? "currentColor" : "none"}
                   />
-                  <span className="text-[0.7rem] leading-tight font-bold text-[#10233f] sm:text-sm dark:text-white">
-                    {feature.title}
+                  <span className="text-lg leading-tight font-bold text-ink sm:text-sm dark:text-white">
+                    {feature.Number}
                   </span>
                   <span className="text-[0.6rem] text-[#5b7267] sm:text-xs dark:text-emerald-100/60">
                     {feature.caption}
