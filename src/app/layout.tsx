@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavBer from "@/components/Shared/NavBer";
+
 import Footer from "@/components/Shared/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-
+import NavBer from "@/components/Shared/NavBer";
+import FooterPage from "@/components/Shared/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +23,11 @@ export const metadata: Metadata = {
     "Join Jagoron to discover and organize community events, volunteer for tree plantation drives, health camps and literacy programs, and track real-time social impact together.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
@@ -36,9 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem={false}
           disableTransitionOnChange
         >
-          <NavBer />
-          <main className="flex-1">{children}</main>  
-          <Footer />
+          <NavBer/>
+          <main>{children}</main>
+          <FooterPage/>
         </ThemeProvider>
       </body>
     </html>

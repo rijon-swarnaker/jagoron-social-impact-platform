@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, Heart, Home, Leaf, Users } from "lucide-react";
@@ -43,9 +44,10 @@ const socialLinks = [
   },
 ] as const;
 
-export default async function Footer() {
+export default function FooterPage() {
   return (
-    <footer className="relative mt-auto overflow-hidden bg-[#f2fff9] dark:bg-[#04120b]">
+    <footer className="relative isolate mt-auto overflow-hidden bg-[#f2fff9] transition-colors duration-300 dark:bg-[#07140e]">
+
       {/* Background Image */}
       <Image
         src="/Images/Footer-Background.png"
@@ -53,19 +55,29 @@ export default async function Footer() {
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover  dark:opacity-20 xl:object-cover"
+        className="pointer-events-none -z-20 object-cover opacity-70 dark:opacity-[0.07]"
       />
 
+      {/* Background Overlay */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#f2fff9]/90 via-white/70 to-[#dff5e8]/90 dark:from-[#07140e]/95 dark:via-[#0b1c13]/95 dark:to-[#10291b]/95" />
+
+      {/* Decorative Glow */}
+      <div className="pointer-events-none absolute -top-32 left-1/4 -z-10 size-80 rounded-full bg-emerald-300/15 blur-[100px] dark:bg-emerald-500/[0.07]" />
+
       <div className="relative z-10">
+
         {/* Main Footer */}
-        <div className="mx-auto max-w-[1600px] px-5 py-4 sm:px-8 sm:py-5 md:px-10 lg:px-12 lg:py-9 xl:px-16">
-          <div className="grid grid-cols-2 gap-10 md:grid-cols-3  lg:grid-cols-[1.15fr_0.75fr_1fr] lg:gap-0">
+        <div className="mx-auto max-w-[1600px] px-5 py-8 sm:px-8 md:px-10 lg:px-12 lg:py-12 xl:px-16">
+
+          <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-[1.15fr_0.75fr_1fr] lg:gap-0">
+
             {/* Brand Section */}
-            <div className=" lg:col-span-1 lg:pr-8 xl:pr-16">
+            <div className="lg:pr-8 xl:pr-16">
+
               <Link
                 href="/"
                 aria-label="Jagoron home"
-                className="inline-block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong focus-visible:ring-offset-4"
+                className="inline-block rounded-lg transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-4 dark:focus-visible:ring-emerald-400 dark:focus-visible:ring-offset-[#07140e]"
               >
                 <Image
                   src="/Images/Jagoron Social Impact Logo.png"
@@ -77,14 +89,14 @@ export default async function Footer() {
                 />
               </Link>
 
-              <p className="mt-5 max-w-95 text-sm leading-7 text-[#1c4233] dark:text-emerald-100/75">
+              <p className="mt-5 max-w-95 text-sm leading-7 text-[#1c4233] dark:text-[#c0d9ca]">
                 Together for a better tomorrow. Join, create and support
                 community development events in your area.
               </p>
 
-              <div className="mt-5 hidden md:block h-px w-full max-w-82 bg-[#c7ead6] dark:bg-emerald-900" />
+              <div className="mt-5 hidden h-px w-full max-w-82 bg-[#c7ead6] md:block dark:bg-emerald-900/70" />
 
-              <div className="mt-4 hidden md:inline-flex max-w-full items-center gap-2 border-b border-[#9ad9b5] pb-2 text-sm font-semibold text-brand dark:border-emerald-700 dark:text-emerald-300">
+              <div className="mt-4 hidden max-w-full items-center gap-2 border-b border-[#9ad9b5] pb-2 text-sm font-semibold text-brand md:inline-flex dark:border-emerald-700/60 dark:text-emerald-400">
                 <Leaf
                   className="size-4 shrink-0"
                   fill="currentColor"
@@ -95,8 +107,9 @@ export default async function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div className="hidden border-t border-[#b7e5cc] pt-8 md:block md:border-t-0 md:pt-0 lg:border-l lg:px-6 xl:px-8 dark:border-emerald-800">
-              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-300">
+            <div className="hidden border-t border-[#b7e5cc] pt-8 md:block md:border-t-0 md:pt-0 lg:border-l lg:border-[#b7e5cc] lg:px-6 xl:px-8 dark:border-[#294b38]">
+
+              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-400">
                 <Home className="size-5" fill="currentColor" strokeWidth={2} />
                 Quick Links
               </h2>
@@ -106,10 +119,10 @@ export default async function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-2.5 text-sm font-medium text-[#183b2b] transition-colors hover:text-[#01592d] dark:text-emerald-100/80 dark:hover:text-emerald-300"
+                      className="group inline-flex items-center gap-2.5 text-sm font-medium text-[#183b2b] transition-all duration-200 hover:translate-x-1 hover:text-[#01592d] dark:text-[#c5dbce] dark:hover:text-emerald-400"
                     >
                       <ChevronRight
-                        className="size-3.5 shrink-0 text-[#0b7a47] transition-transform group-hover:translate-x-1 dark:text-emerald-400"
+                        className="size-3.5 shrink-0 text-[#0b7a47] transition-transform group-hover:translate-x-0.5 dark:text-emerald-400"
                         strokeWidth={2.5}
                       />
                       {link.label}
@@ -120,8 +133,9 @@ export default async function Footer() {
             </div>
 
             {/* Social Links */}
-            <div className=" border-[#b7e5cc] pt-8  md:col-span-1 md:border-t-0 md:pt-0 lg:border-l lg:px-6 xl:px-8 dark:border-emerald-800">
-              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-300">
+            <div className="border-[#b7e5cc] pt-8 md:col-span-1 md:border-t-0 md:pt-0 lg:border-l lg:border-[#b7e5cc] lg:px-6 xl:px-8 dark:border-[#294b38]">
+
+              <h2 className="flex items-center gap-2.5 text-lg font-bold text-[#01592d] dark:text-emerald-400">
                 <Users className="size-5" fill="currentColor" strokeWidth={2} />
                 Follow Us
               </h2>
@@ -134,7 +148,26 @@ export default async function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Follow Jagoron on ${social.label}`}
-                    className="flex size-10 shrink-0 items-center justify-center rounded-[10px] border border-[#ccebd9] bg-white/85 text-[#01592d] shadow-[0_2px_8px_rgba(1,89,45,0.08)] transition-all hover:-translate-y-0.5 hover:bg-[#01592d] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b7a47] focus-visible:ring-offset-2 dark:border-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-200 dark:hover:bg-emerald-400 dark:hover:text-emerald-950 dark:focus-visible:ring-emerald-300"
+                    className={`
+                      flex size-10  shrink-0 items-center justify-center
+                      rounded-4xl border border-[#ccebd9]
+                      bg-white/85 text-[#01592d]
+                      shadow-[0_2px_8px_rgba(1,89,45,0.08)]
+                      transition-all duration-300
+                      hover:-translate-y-1 hover:border-[#01592d]
+                      hover:bg-[#01592d] hover:text-white
+                      focus-visible:outline-none focus-visible:ring-2
+                      focus-visible:ring-[#0b7a47] focus-visible:ring-offset-2
+                      dark:border-[#315541]
+                      dark:bg-[#10251a]
+                      dark:text-emerald-300
+                      dark:shadow-[0_3px_12px_rgba(0,0,0,0.25)]
+                      dark:hover:border-emerald-400
+                      dark:hover:bg-emerald-500
+                      dark:hover:text-[#07140e]
+                      dark:focus-visible:ring-emerald-400
+                      dark:focus-visible:ring-offset-[#07140e]
+                    `}
                   >
                     <svg
                       aria-hidden="true"
@@ -148,24 +181,26 @@ export default async function Footer() {
                 ))}
               </div>
 
-              <p className="mt-5 hidden md:block max-w-70 text-sm leading-6 font-medium text-[#1c4233] dark:text-emerald-100/80">
+              <p className="mt-5 hidden max-w-70 text-sm leading-6 font-medium text-[#1c4233] md:block dark:text-[#b7d2c2]">
                 Let&apos;s build a stronger community together!
               </p>
 
-              <div className="mt-3 hidden md:block h-0.5 w-40 max-w-full rounded-full bg-[#0b7a47]/70 dark:bg-emerald-500/70" />
+              <div className="mt-3 hidden h-0.5 w-40 max-w-full rounded-full bg-[#0b7a47]/70 md:block dark:bg-emerald-500/70" />
             </div>
           </div>
         </div>
 
         {/* Copyright Section */}
-        <div className="relative z-10 border-t border-white/15 bg-[#01583D] dark:border-emerald-900 dark:bg-[#03100a]">
+        <div className="relative z-10 border-t border-white/15 bg-[#01583D] dark:border-[#254332] dark:bg-[#030d08]">
+
           <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-4 px-5 py-5 text-center text-xs font-medium text-white/95 sm:px-8 md:px-10 lg:flex-row lg:gap-5 lg:px-12 lg:text-left xl:px-16">
+
             {/* Copyright */}
-            <p className="order-1">
+            <p className="order-1 text-white/90">
               &copy;{" "}
               <Suspense fallback="2026">
                 <CurrentYear />
-              </Suspense>
+              </Suspense>{" "}
               <Link
                 href="/"
                 className="font-bold text-[#8ef0bd] transition-colors hover:text-white"
@@ -176,7 +211,7 @@ export default async function Footer() {
             </p>
 
             {/* Made With */}
-            <p className="order-2 flex items-center gap-1.5">
+            <p className="order-2 flex items-center gap-1.5 text-white/85">
               Made with
               <Heart
                 aria-hidden="true"
@@ -187,15 +222,22 @@ export default async function Footer() {
 
             {/* Legal Links */}
             <div className="order-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+
               {legalLinks.map((link, index) => (
-                <span key={link.href} className="flex items-center gap-3">
+                <span
+                  key={link.href}
+                  className="flex items-center gap-3"
+                >
                   {index > 0 && (
-                    <span aria-hidden="true" className="h-3 w-px bg-white/30" />
+                    <span
+                      aria-hidden="true"
+                      className="h-3 w-px bg-white/30"
+                    />
                   )}
 
                   <Link
                     href={link.href}
-                    className="transition-colors hover:text-[#8ef0bd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8ef0bd]"
+                    className="text-white/85  transition-colors hover:text-[#8ef0bd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8ef0bd]"
                   >
                     {link.label}
                   </Link>

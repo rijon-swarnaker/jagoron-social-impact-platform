@@ -75,7 +75,7 @@ export default function NavBer() {
             height={733}
             priority
             sizes="(max-width: 640px) 150px, (max-width: 1024px) 175px, 210px"
-            className="h-9 w-auto object-contain sm:h-11 lg:h-12 dark:brightness-150"
+            className="h-10 mb-1 w-auto object-contain sm:h-11 lg:h-12 dark:brightness-150"
           />
         </Link>
 
@@ -150,6 +150,9 @@ export default function NavBer() {
 
         {/* Mobile Menu Button */}
         <div className="relative z-10 flex items-center gap-2 md:hidden">
+
+          <ThemeToggle  />
+          
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
@@ -160,7 +163,7 @@ export default function NavBer() {
             }
             className={cn(
               "inline-flex size-10 items-center justify-center",
-              "rounded-xl border border-emerald-100",
+              " rounded-2xl border border-emerald-100",
               "bg-emerald-50/70 text-emerald-800",
               "transition-all duration-200 hover:bg-emerald-100",
               "focus-visible:outline-none focus-visible:ring-2",
@@ -207,7 +210,7 @@ export default function NavBer() {
                 onClick={() => setMobileOpen(false)}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex h-12 items-center gap-3 rounded-xl px-4",
+                  "flex h-12 items-center gap-3  rounded-2xl px-4",
                   "text-sm font-semibold transition-all duration-200",
                   isActive
                     ? "bg-emerald-700 text-white shadow-sm dark:bg-emerald-500 dark:text-emerald-950"
@@ -232,7 +235,7 @@ export default function NavBer() {
           <span className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-emerald-200/70">
             Appearance
           </span>
-          <ThemeToggle />
+          
         </div>
 
         <Link
@@ -240,7 +243,7 @@ export default function NavBer() {
           onClick={() => setMobileOpen(false)}
           className={cn(
             "mt-2 flex h-12 w-full items-center justify-center gap-2.5",
-            "rounded-xl bg-gradient-to-r from-[#087a46] to-[#01592d]",
+            " rounded-2xl bg-gradient-to-r from-[#087a46] to-[#01592d]",
             "text-sm font-semibold text-white shadow-md",
             "transition-all duration-200 hover:brightness-110"
           )}
