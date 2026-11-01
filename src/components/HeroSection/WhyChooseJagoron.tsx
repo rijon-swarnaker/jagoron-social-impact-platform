@@ -6,7 +6,6 @@ import {
   ShieldCheck,
   Send,
   ChartNoAxesCombined,
-  ArrowUpRight,
   Heart,
 } from "lucide-react";
 
@@ -64,7 +63,7 @@ export default function WhyChooseJagoron() {
 
           <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
             Together, We Create{" "}
-            <span className="bg-gradient-to-r from-emerald-600 to-green-800 bg-clip-text text-transparent dark:from-emerald-400 dark:to-green-300">
+            <span className="bg-linear-to-r from-emerald-600 to-green-800 bg-clip-text text-transparent dark:from-emerald-400 dark:to-green-300">
               Lasting Impact.
             </span>
           </h2>
@@ -105,7 +104,7 @@ export default function WhyChooseJagoron() {
                 </span>
 
                 {/* Icon */}
-                <div className="relative mb-7 flex size-14 items-center justify-center rounded-2xl border border-emerald-200/70 bg-gradient-to-br from-emerald-100 to-green-50 text-emerald-700 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md dark:border-emerald-800 dark:from-emerald-900 dark:to-green-950 dark:text-emerald-300">
+                <div className="relative mb-7 flex size-14 items-center justify-center rounded-2xl border border-emerald-200/70 bg-linear-to-br from-emerald-100 to-green-50 text-emerald-700 shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-md dark:border-emerald-800 dark:from-emerald-900 dark:to-green-950 dark:text-emerald-300">
                   <Icon size={25} strokeWidth={2} />
                 </div>
 
@@ -119,28 +118,14 @@ export default function WhyChooseJagoron() {
                 </p>
 
                 {/* Bottom Accent */}
-                <div className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-emerald-500 to-green-700 transition-all duration-500 group-hover:w-full" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 bg-linear-to-r from-emerald-500 to-green-700 transition-all duration-500 group-hover:w-full" />
               </div>
             );
           })}
 
         </div>
 
-        {/* Bottom Message */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-3 text-center sm:mt-16">
-          <span className="flex size-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">
-            <Heart size={17} fill="currentColor" />
-          </span>
-
-          <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-            Small Actions. Big Changes. A Better Tomorrow.
-          </p>
-
-          <ArrowUpRight
-            size={18}
-            className="text-emerald-600 dark:text-emerald-400"
-          />
-        </div>
+        
 
       </div>
     </section>
