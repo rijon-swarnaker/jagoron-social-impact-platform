@@ -1,11 +1,12 @@
 import React from 'react';
 
-const page = () => {
+const upComingEvents = async () => {
+    
     return (
         <div>
-            hello
+            <h1>hello</h1>
         </div>
     );
 };
 
-export default page;
+export default upComingEvents;

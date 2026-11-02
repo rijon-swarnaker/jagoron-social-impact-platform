@@ -195,9 +195,8 @@ export default function FooterPage() {
             {/* Copyright */}
             <p className="order-1 text-white/90">
               &copy;{" "}
-              <Suspense fallback="2026">
                 <CurrentYear />
-              </Suspense>{" "}
+              
               <Link
                 href="/"
                 className="font-bold text-[#8ef0bd] transition-colors hover:text-white"

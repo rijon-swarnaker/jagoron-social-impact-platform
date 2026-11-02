@@ -1,9 +1,19 @@
-import { connection } from 'next/server';
-import React from 'react';
+"use client";
 
-const CurrentYear = async () => {
-    await connection();
-    return <>{new Date().getFullYear()}</>;
+import React, { useEffect, useState } from "react";
+
+const CurrentYear = () => {
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setYear(new Date().getFullYear());
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <>{year ?? "..."}</>;
 };
 
 export default CurrentYear;
