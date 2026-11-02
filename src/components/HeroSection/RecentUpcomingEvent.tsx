@@ -31,7 +31,7 @@ export default async function RecentUpcomingEvent() {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/recent-upcoming-events`
       
     );
 
@@ -195,7 +195,7 @@ export default async function RecentUpcomingEvent() {
 
                   {/* View Event Button */}
                   <Link
-                    href={`/events/${event._id}`}
+                    href={`/upcoming-events/${event._id}`}
                     className="group flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-green-700 px-4 py-2.5 text-sm font-bold leading-none text-white shadow-sm transition-all duration-300 hover:from-emerald-700 hover:to-green-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
                   >
                     <span>View Event</span>

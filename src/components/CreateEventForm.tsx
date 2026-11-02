@@ -33,7 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 
 // Types
 type EventFormData = {

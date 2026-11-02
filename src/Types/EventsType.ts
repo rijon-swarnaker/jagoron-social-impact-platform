@@ -8,4 +8,5 @@ export interface EventProps {
   eventDate: string;
   organizerEmail: string;
   organizerPhoto: string;
+  organizerName: string
 }

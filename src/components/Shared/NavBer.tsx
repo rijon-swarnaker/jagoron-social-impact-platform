@@ -1,10 +1,18 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, Home, LogIn, Menu, X, ChevronRight } from "lucide-react";
+import {
+  CalendarDays,
+  Home,
+  LogIn,
+  Menu,
+  X,
+  ChevronRight,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
@@ -20,7 +28,8 @@ const navItems = [
   },
 ] as const;
 
-export default function NavBer() {
+// Main Navbar Content
+function NavBerContent() {
   const { data: session } = useSession();
   const user = session?.user;
 
@@ -32,7 +41,9 @@ export default function NavBer() {
     if (!mobileOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMobileOpen(false);
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -43,25 +54,25 @@ export default function NavBer() {
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-50 px-3 bg-[#BDEFC9]/80 dark:bg-[#13251A]/80  pt-3 sm:px-5 sm:pt-4">
+    <header className="sticky top-0 z-50 bg-[#BDEFC9]/80 px-3 pt-3 dark:bg-[#13251A]/80 sm:px-5 sm:pt-4">
       <nav
         aria-label="Primary navigation"
         className={cn(
-          "relative mx-auto flex min-h-16 py-5 sm:h-19 sm:py-0 lg:h-21",
-          "max-w-375 items-center justify-between",
+          "relative mx-auto flex min-h-16 items-center justify-between py-5 sm:h-19 sm:py-0 lg:h-21",
+          "max-w-375",
           "rounded-2xl border border-emerald-100/80",
-          "bg-white/90 px-3  sm:px-5 lg:px-8 xl:px-10",
+          "bg-white/90 px-3 sm:px-5 lg:px-8 xl:px-10",
           "shadow-[0_8px_35px_-18px_rgba(1,89,45,0.25)]",
           "backdrop-blur-xl",
           "dark:border-emerald-900/70 dark:bg-[#071a10]/90",
-          "dark:shadow-black/20",
+          "dark:shadow-black/20"
         )}
       >
         {/* Logo */}
         <Link
           href="/"
           aria-label="Jagoron home"
-          className="relative z-10  shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
+          className="relative z-10 shrink-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
         >
           <Image
             src="/Images/Jagoron Social Impact Logo.png"
@@ -70,7 +81,7 @@ export default function NavBer() {
             height={733}
             priority
             sizes="(max-width: 640px) 150px, (max-width: 1024px) 175px, 210px"
-            className="h-10 mb-1 w-auto object-contain sm:h-11 lg:h-12 dark:brightness-150"
+            className="mb-1 h-10 w-auto object-contain sm:h-11 lg:h-12 dark:brightness-150"
           />
         </Link>
 
@@ -78,7 +89,12 @@ export default function NavBer() {
         <div className="relative z-10 hidden flex-1 items-center justify-center px-3 md:flex lg:px-5">
           <div className="flex items-center gap-1 rounded-full border border-emerald-100/80 bg-emerald-50/70 p-1.5 shadow-sm shadow-emerald-950/5 dark:border-emerald-900/70 dark:bg-emerald-950/40">
             {navItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname === item.href ||
+                    pathname.startsWith(`${item.href}/`);
+
               const Icon = item.icon;
 
               return (
@@ -89,22 +105,25 @@ export default function NavBer() {
                   className={cn(
                     "inline-flex h-10 items-center gap-2 rounded-full",
                     "whitespace-nowrap px-3 lg:px-4 xl:px-5",
-                    "text-xs lg:text-sm font-semibold",
+                    "text-xs font-semibold lg:text-sm",
                     "transition-all duration-300",
                     "focus-visible:outline-none focus-visible:ring-2",
                     "focus-visible:ring-emerald-600",
                     isActive
                       ? "bg-emerald-700 text-white shadow-md shadow-emerald-900/15 dark:bg-emerald-500 dark:text-emerald-950"
-                      : "text-slate-600 hover:bg-white hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-900/60 dark:hover:text-emerald-200",
+                      : "text-slate-600 hover:bg-white hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-900/60 dark:hover:text-emerald-200"
                   )}
                 >
                   <Icon
                     size={18}
                     strokeWidth={2.2}
                     fill={
-                      isActive && item.href === "/" ? "currentColor" : "none"
+                      isActive && item.href === "/"
+                        ? "currentColor"
+                        : "none"
                     }
                   />
+
                   {item.label}
                 </Link>
               );
@@ -114,52 +133,49 @@ export default function NavBer() {
 
         {/* Desktop Actions */}
         <div
-          className={`${
-            user
-              ? "relative z-10 flex items-center gap-3 lg:gap-4"
-              : "relative z-10 hidden md:flex items-center gap-3 lg:gap-4"
-          }`}
+          className={cn(
+            "relative z-10 items-center gap-3 lg:gap-4",
+            user ? "flex" : "hidden md:flex"
+          )}
         >
           <ThemeToggle />
 
-          <div className=" h-9 w-px bg-emerald-100 dark:bg-emerald-900" />
+          <div className="h-9 w-px bg-emerald-100 dark:bg-emerald-900" />
 
           {user ? (
-            <>
-              <UserMenu />
-            </>
+            <UserMenu />
           ) : (
-            <>
-              <div>
-                <Link
-                  href="/login"
-                  className={cn(
-                    "group inline-flex h-10 lg:h-12 items-center gap-2",
-                    "rounded-full bg-linear-to-r from-[#087a46] to-brand",
-                    "px-4 lg:px-6 text-xs lg:text-sm font-semibold text-white",
-                    "shadow-lg shadow-emerald-900/15",
-                    "transition-all duration-300",
-                    "hover:-translate-y-0.5 hover:shadow-xl",
-                    "hover:shadow-emerald-900/25",
-                    "focus-visible:outline-none focus-visible:ring-2",
-                    "focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
-                  )}
-                >
-                  <LogIn size={18} />
-                  Login
-                  <ChevronRight
-                    size={16}
-                    className="transition-transform duration-300 group-hover:translate-x-1"
-                  />
-                </Link>
-              </div>
-            </>
+            <Link
+              href="/login"
+              className={cn(
+                "group inline-flex h-10 items-center gap-2 rounded-full lg:h-12",
+                "bg-linear-to-r from-[#087a46] to-brand",
+                "px-4 text-xs font-semibold text-white lg:px-6 lg:text-sm",
+                "shadow-lg shadow-emerald-900/15",
+                "transition-all duration-300",
+                "hover:-translate-y-0.5 hover:shadow-xl",
+                "hover:shadow-emerald-900/25",
+                "focus-visible:outline-none focus-visible:ring-2",
+                "focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+              )}
+            >
+              <LogIn size={18} />
+              Login
+
+              <ChevronRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
           )}
         </div>
 
         {/* Mobile Menu Button */}
         <div
-          className={`${user ? "hidden" : "relative  z-10 flex items-center gap-2 md:hidden"}`}
+          className={cn(
+            "relative z-10 flex items-center gap-2 md:hidden",
+            user && "hidden"
+          )}
         >
           <ThemeToggle />
 
@@ -172,14 +188,14 @@ export default function NavBer() {
               mobileOpen ? "Close navigation menu" : "Open navigation menu"
             }
             className={cn(
-              "inline-flex size-10 items-center justify-center",
-              " rounded-2xl border border-emerald-100",
+              "inline-flex size-10 items-center justify-center rounded-2xl",
+              "border border-emerald-100",
               "bg-emerald-50/70 text-emerald-800",
               "transition-all duration-200 hover:bg-emerald-100",
               "focus-visible:outline-none focus-visible:ring-2",
               "focus-visible:ring-emerald-600",
               "dark:border-emerald-900 dark:bg-emerald-950",
-              "dark:text-emerald-200 dark:hover:bg-emerald-900",
+              "dark:text-emerald-200 dark:hover:bg-emerald-900"
             )}
           >
             {mobileOpen ? <X size={21} /> : <Menu size={21} />}
@@ -193,7 +209,7 @@ export default function NavBer() {
         aria-hidden={!mobileOpen}
         inert={!mobileOpen}
         className={cn(
-          "absolute inset-x-3  top-full z-50 mt-2 sm:inset-x-5",
+          "absolute inset-x-3 top-full z-50 mt-2 sm:inset-x-5",
           "origin-top overflow-hidden rounded-2xl",
           "border border-emerald-100 bg-white/95 p-3",
           "shadow-[0_20px_50px_-15px_rgba(1,89,45,0.25)]",
@@ -202,12 +218,20 @@ export default function NavBer() {
           "dark:border-emerald-900 dark:bg-[#071a10]/95",
           mobileOpen
             ? "visible translate-y-0 scale-100 opacity-100"
-            : "invisible pointer-events-none -translate-y-2 scale-[0.98] opacity-0",
+            : "invisible pointer-events-none -translate-y-2 scale-[0.98] opacity-0"
         )}
       >
-        <nav aria-label="Mobile navigation" className="flex flex-col gap-1.5">
+        <nav
+          aria-label="Mobile navigation"
+          className="flex flex-col gap-1.5"
+        >
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href ||
+                  pathname.startsWith(`${item.href}/`);
+
             const Icon = item.icon;
 
             return (
@@ -217,14 +241,15 @@ export default function NavBer() {
                 onClick={() => setMobileOpen(false)}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex h-12 items-center gap-3  rounded-2xl px-4",
+                  "flex h-12 items-center gap-3 rounded-2xl px-4",
                   "text-sm font-semibold transition-all duration-200",
                   isActive
                     ? "bg-emerald-700 text-white shadow-sm dark:bg-emerald-500 dark:text-emerald-950"
-                    : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-950",
+                    : "text-slate-600 hover:bg-emerald-50 hover:text-emerald-800 dark:text-slate-300 dark:hover:bg-emerald-950"
                 )}
               >
                 <Icon size={19} />
+
                 {item.label}
 
                 {isActive && (
@@ -244,21 +269,47 @@ export default function NavBer() {
           </span>
         </div>
 
-        <Link
-          href="/login"
-          onClick={() => setMobileOpen(false)}
-          className={cn(
-            "mt-2 flex h-12 w-full items-center justify-center gap-2.5",
-            " rounded-2xl bg-linear-to-r from-[#087a46] to-brand",
-            "text-sm font-semibold text-white shadow-md",
-            "transition-all duration-200 hover:brightness-110",
-          )}
-        >
-          <LogIn size={18} />
-          Login to Jagoron
-          <ChevronRight size={16} />
-        </Link>
+        {!user && (
+          <Link
+            href="/login"
+            onClick={() => setMobileOpen(false)}
+            className={cn(
+              "mt-2 flex h-12 w-full items-center justify-center gap-2.5",
+              "rounded-2xl bg-linear-to-r from-[#087a46] to-brand",
+              "text-sm font-semibold text-white shadow-md",
+              "transition-all duration-200 hover:brightness-110"
+            )}
+          >
+            <LogIn size={18} />
+            Login to Jagoron
+            <ChevronRight size={16} />
+          </Link>
+        )}
       </div>
     </header>
+  );
+}
+
+// Navbar with Suspense Boundary
+export default function NavBer() {
+  return (
+    <Suspense
+      fallback={
+        <header className="sticky top-0 z-50 bg-[#BDEFC9]/80 px-3 pt-3 dark:bg-[#13251A]/80 sm:px-5 sm:pt-4">
+          <nav className="mx-auto flex min-h-16 max-w-375 items-center justify-between rounded-2xl border border-emerald-100 bg-white/90 px-5 shadow-sm dark:border-emerald-900 dark:bg-[#071a10]">
+            {/* Logo Skeleton */}
+            <div className="h-10 w-36 animate-pulse rounded-lg bg-emerald-100 dark:bg-emerald-900" />
+
+            {/* Navigation Skeleton */}
+            <div className="hidden h-10 w-56 animate-pulse rounded-full bg-emerald-100 dark:bg-emerald-900 md:block" />
+
+            {/* Action Skeleton */}
+            <div className="h-10 w-24 animate-pulse rounded-full bg-emerald-100 dark:bg-emerald-900" />
+          </nav>
+        </header>
+      }
+    >
+      <NavBerContent />
+    </Suspense>
   );
 }
