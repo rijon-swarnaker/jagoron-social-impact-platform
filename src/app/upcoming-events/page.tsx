@@ -1,9 +1,7 @@
-
-
 import UpcomingEventsClient from "@/components/UpcomingEventsClient";
 import { EventProps } from "@/Types/EventsType";
 
-
+export const dynamic = "force-dynamic";
 
 export default async function UpcomingEventsPage() {
   let events: EventProps[] = [];
@@ -11,18 +9,27 @@ export default async function UpcomingEventsPage() {
   let error = "";
 
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!baseUrl) {
+      throw new Error("API URL is not configured");
+    }
+
     const [eventsRes, categoriesRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`, {
+      fetch(`${baseUrl}/upcoming-events`, {
         cache: "no-store",
       }),
-
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/event-categories`, {
+      fetch(`${baseUrl}/event-categories`, {
         cache: "no-store",
       }),
     ]);
 
-    if (!eventsRes.ok || !categoriesRes.ok) {
-      throw new Error("Failed to fetch initial data");
+    if (!eventsRes.ok) {
+      throw new Error(`Events API failed: ${eventsRes.status}`);
+    }
+
+    if (!categoriesRes.ok) {
+      throw new Error(`Categories API failed: ${categoriesRes.status}`);
     }
 
     const [eventsData, categoriesData] = await Promise.all([

@@ -65,7 +65,7 @@ export default function UpcomingEventsClient({
       const url =
         category === "All"
           ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`
-          : `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events?category=${(category)}`;
+          : `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events?category=${encodeURIComponent(category)}`;
 
       const res = await fetch(url);
 
