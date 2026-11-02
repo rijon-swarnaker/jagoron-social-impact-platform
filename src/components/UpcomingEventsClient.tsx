@@ -33,12 +33,12 @@ import {
 import { EventProps } from "@/Types/EventsType";
 
 
-
 interface UpcomingEventsClientProps {
   initialEvents: EventProps[];
   initialCategories: string[];
   initialError: string;
 }
+
 
 export default function UpcomingEventsClient({
   initialEvents,
@@ -65,7 +65,7 @@ export default function UpcomingEventsClient({
       const url =
         category === "All"
           ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`
-          : `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events?category=${encodeURIComponent(category)}`;
+          : `${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events?category=${(category)}`;
 
       const res = await fetch(url);
 

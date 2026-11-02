@@ -1,6 +1,8 @@
 
+
 import UpcomingEventsClient from "@/components/UpcomingEventsClient";
 import { EventProps } from "@/Types/EventsType";
+
 
 
 export default async function UpcomingEventsPage() {
@@ -10,9 +12,13 @@ export default async function UpcomingEventsPage() {
 
   try {
     const [eventsRes, categoriesRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`),
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upcoming-events`, {
+        cache: "no-store",
+      }),
 
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/event-categories`),
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/event-categories`, {
+        cache: "no-store",
+      }),
     ]);
 
     if (!eventsRes.ok || !categoriesRes.ok) {
