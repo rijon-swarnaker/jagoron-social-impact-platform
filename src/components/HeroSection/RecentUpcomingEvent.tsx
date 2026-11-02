@@ -1,4 +1,5 @@
 
+import { connection } from "next/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,26 +23,38 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+
 import { EventProps } from "@/Types/EventsType";
 
-
-
 export default async function RecentUpcomingEvent() {
+  // Wait until request time before fetching data
+  await connection();
+
   let data: EventProps[] = [];
 
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    if (!baseUrl) {
+      throw new Error("API URL is not configured");
+    }
+
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/recent-upcoming-events`
-      
+      `${baseUrl}/recent-upcoming-events`,
+      {
+        cache: "no-store",
+      }
     );
 
     if (!res.ok) {
-      throw new Error("Failed to fetch upcoming events");
+      throw new Error(
+        `Failed to fetch upcoming events: ${res.status}`
+      );
     }
 
     data = await res.json();
   } catch (error) {
-    console.error("Upcoming events fetch error:", error);
+    console.error("Recent upcoming events fetch error:", error);
   }
 
   const formatDate = (date: string) => {
@@ -111,19 +124,13 @@ export default async function RecentUpcomingEvent() {
 
                   {/* Category Badge */}
                   <Badge className="absolute left-3 top-3 gap-1 rounded-full border-0 bg-white/95 px-3 py-1.5 text-xs font-bold text-emerald-800 shadow-md hover:bg-white/95">
-                    <Heart
-                      size={14}
-                      className="text-red-500"
-                    />
+                    <Heart size={14} className="text-red-500" />
                     {event.eventType}
                   </Badge>
 
                   {/* Date Badge */}
                   <Badge className="absolute right-3 top-3 flex max-w-[65%] items-center gap-1.5 truncate rounded-full border-0 bg-emerald-950/90 px-3 py-1.5 text-[10px] font-semibold text-white shadow-md hover:bg-emerald-950/90 sm:text-xs">
-                    <CalendarDays
-                      size={13}
-                      className="shrink-0"
-                    />
+                    <CalendarDays size={13} className="shrink-0" />
 
                     <span className="truncate">
                       {formatDate(event.eventDate)}
@@ -155,7 +162,6 @@ export default async function RecentUpcomingEvent() {
 
                   {/* Organizer */}
                   <div className="mb-4 mt-auto flex min-w-0 items-center gap-3 border-t border-border pt-3">
-
                     <Avatar className="size-11 shrink-0 border-2 border-emerald-100 dark:border-emerald-800">
                       <AvatarImage
                         src={event.organizerPhoto || ""}
@@ -181,10 +187,7 @@ export default async function RecentUpcomingEvent() {
                       </p>
 
                       <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
-                        <Mail
-                          size={12}
-                          className="shrink-0"
-                        />
+                        <Mail size={12} className="shrink-0" />
 
                         <span className="truncate">
                           {event.organizerEmail}

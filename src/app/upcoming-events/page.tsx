@@ -1,9 +1,11 @@
+
+import { connection } from "next/server";
 import UpcomingEventsClient from "@/components/UpcomingEventsClient";
 import { EventProps } from "@/Types/EventsType";
 
-
-
 export default async function UpcomingEventsPage() {
+  await connection();
+
   let events: EventProps[] = [];
   let categories: string[] = [];
   let error = "";
