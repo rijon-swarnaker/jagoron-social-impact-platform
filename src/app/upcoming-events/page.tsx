@@ -1,7 +1,7 @@
 import UpcomingEventsClient from "@/components/UpcomingEventsClient";
 import { EventProps } from "@/Types/EventsType";
 
-export const dynamic = "force-dynamic";
+
 
 export default async function UpcomingEventsPage() {
   let events: EventProps[] = [];
