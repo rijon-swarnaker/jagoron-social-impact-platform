@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { redirect, useRouter } from "next/navigation";
 
 // Types
 type EventFormData = {
@@ -79,6 +80,8 @@ export default function CreateEventForm({
   // Logged-in user
   const { data: session, isPending } = useSession();
   const user = session?.user;
+
+  const router = useRouter();
 
   // Form states
   const [formData, setFormData] =
@@ -213,6 +216,7 @@ export default function CreateEventForm({
     if (!res.ok || data.acknowledged !== true) {
       throw new Error(
         data.message || "Failed to create event."
+        
       );
     }
 
@@ -223,6 +227,8 @@ export default function CreateEventForm({
     console.log("Created event:", data);
 
     handleReset();
+
+    router.push("/upcoming-events");
 
   } catch (error) {
     console.error("Event submission failed:", error);
