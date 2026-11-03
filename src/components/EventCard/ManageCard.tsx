@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EventProps } from "@/Types/EventsType";
 import { Button } from "../ui/button";
 import { redirect, useRouter } from "next/navigation";
+import EventEditFrom from "../EventEditFrom";
 
 type EventCardProps = {
   event: EventProps;
@@ -165,13 +166,10 @@ const HandleDeleteEvent = async () => {
           </Link>
 
           {/* Edit Button */}
-          <Link
-            href={`/upcoming-events/${event._id}/edit`}
-            className="flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-2 text-xs font-bold text-white transition hover:bg-blue-700 sm:text-sm"
-          >
-            <Pencil size={15} />
-            Edit
-          </Link>
+        
+            
+           <EventEditFrom key={event._id} event={event}/>
+      
 
           {/* Delete Button */}
           <Button
