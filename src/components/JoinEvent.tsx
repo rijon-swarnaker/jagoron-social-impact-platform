@@ -22,24 +22,22 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
   const [isJoining, setIsJoining] = useState(false);
 
   const HandleJoinEvent = async () => {
-    if (isPending || isJoining) return;
-
     if (!user) {
       toast.error("Please login first!");
       return;
     }
 
-    if (isJoined) {
-      toast.warning("Already Exists!");
-      return;
-    }
+    if (isJoining || isJoined) return;
+
+    setIsJoining(true);
 
     try {
-      setIsJoining(true);
-
+      // Keep ALL existing event and user information
       const fromData = {
-        userId: user.id,
+        ...data,
+        ...user,
         eventId: data._id,
+        email: user.email,
       };
 
       const res = await fetch(
@@ -55,34 +53,36 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
 
       const result = await res.json();
 
-      if (res.status === 409 || result.alreadyJoined) {
+      if (res.status === 409) {
+        toast.error("Already Joined This Event!");
         setIsJoined(true);
-        toast.warning("Already Exists!");
         return;
       }
 
-      if (!res.ok || !result.success) {
-        toast.error(result.message || "Failed to join event!");
-        return;
+      if (!res.ok) {
+        throw new Error(
+          result.message || "Something went wrong!"
+        );
       }
 
-      setIsJoined(true);
-      toast.success("Successfully Joined!");
+      if (result.success) {
+        toast.success("Successfully Joined Event!");
+        setIsJoined(true);
+      } else {
+        toast.error(result.message || "Something went wrong!");
+      }
 
     } catch (error) {
       console.error("Join Event Error:", error);
-      toast.error("Something went wrong!");
+
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to join event!"
+      );
+
     } finally {
       setIsJoining(false);
-    }
-  };
-
-  const HandleShare = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      toast.success("Event link copied!");
-    } catch {
-      toast.error("Unable to share event!");
     }
   };
 
@@ -118,8 +118,17 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
               variant="outline"
               size="icon"
               aria-label="Share event"
-              onClick={HandleShare}
               className="size-10 shrink-0 rounded-lg border-gray-200 bg-white hover:border-emerald-200 hover:bg-emerald-50 dark:bg-card"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(
+                    window.location.href
+                  );
+                  toast.success("Event link copied!");
+                } catch {
+                  toast.error("Unable to copy event link!");
+                }
+              }}
             >
               <Share2 size={15} />
             </Button>

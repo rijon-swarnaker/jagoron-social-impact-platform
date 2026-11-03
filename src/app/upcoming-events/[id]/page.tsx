@@ -1,3 +1,4 @@
+
 import { EventProps } from "@/Types/EventsType";
 import React from "react";
 import Image from "next/image";
@@ -18,8 +19,15 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import JoinEvent from "@/components/JoinEvent";
 
@@ -41,7 +49,9 @@ const EventDetailsPage = async ({
           <CalendarDays size={28} />
         </div>
 
-        <h2 className="text-2xl font-bold">Event Not Found!</h2>
+        <h2 className="text-2xl font-bold">
+          Event Not Found!
+        </h2>
 
         <p className="mt-2 text-sm text-muted-foreground">
           Sorry, this event is not available.
@@ -59,7 +69,9 @@ const EventDetailsPage = async ({
 
   const data: EventProps = await res.json();
 
-  const formattedDate = new Date(data.eventDate).toLocaleDateString("en-US", {
+  const formattedDate = new Date(
+    data.eventDate,
+  ).toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -172,8 +184,10 @@ const EventDetailsPage = async ({
                     </h2>
                   </div>
 
-                  <p className="whitespace-pre-line text-[12px] leading-7 text-gray-500 dark:text-muted-foreground">
-                    {data.description}
+                  {/* Event Description */}
+                  <p className="whitespace-pre-line break-words text-[12px] leading-7 text-gray-500 dark:text-muted-foreground">
+                    {data.description?.trim() ||
+                      "No event description available."}
                   </p>
                 </div>
 
@@ -302,7 +316,9 @@ const EventDetailsPage = async ({
                         </div>
 
                         <div>
-                          <p className="text-[9px] text-gray-500">Event Date</p>
+                          <p className="text-[9px] text-gray-500">
+                            Event Date
+                          </p>
 
                           <p className="mt-1 text-[10px] font-semibold">
                             {formattedDate}
@@ -317,7 +333,9 @@ const EventDetailsPage = async ({
                         </div>
 
                         <div>
-                          <p className="text-[9px] text-gray-500">Location</p>
+                          <p className="text-[9px] text-gray-500">
+                            Location
+                          </p>
 
                           <p className="mt-1 text-[10px] font-semibold leading-5">
                             {data.location}
@@ -332,7 +350,9 @@ const EventDetailsPage = async ({
                         </div>
 
                         <div>
-                          <p className="text-[9px] text-gray-500">Category</p>
+                          <p className="text-[9px] text-gray-500">
+                            Category
+                          </p>
 
                           <p className="mt-1 text-[10px] font-semibold">
                             {data.eventType}
