@@ -13,7 +13,7 @@ import {
 
 import { toast } from "sonner";
 import Image from "next/image";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -74,12 +74,14 @@ const initialFormData: EventFormData = {
   organizerPhoto: "",
 };
 
-export default function CreateEventForm({
+export default  function CreateEventForm({
   tomorrow,
 }: CreateEventFormProps) {
   // Logged-in user
   const { data: session, isPending } = useSession();
   const user = session?.user;
+
+
 
   const router = useRouter();
 
@@ -110,10 +112,11 @@ export default function CreateEventForm({
   };
 
   // Validate form
-  const validateForm = () => {
+  const validateForm = async () => {
     const newErrors: Partial<
       Record<keyof EventFormData, string>
     > = {};
+    
 
     if (!formData.title.trim()) {
       newErrors.title = "Event title is required.";
@@ -174,12 +177,23 @@ export default function CreateEventForm({
     setFormData(initialFormData);
     setErrors({});
   };
+  
+  
 
   // Submit form
   const handleSubmit = async (
   e: FormEvent<HTMLFormElement>
 ) => {
   e.preventDefault();
+
+    const {data , error}= await authClient.token()
+  const token = data?.token
+
+  console.log(token);
+
+
+
+  
 
   if (!user) {
     toast.error("Please login to create an event.");
@@ -190,6 +204,7 @@ export default function CreateEventForm({
     toast.error("Please check all required fields.");
     return;
   }
+
 
   try {
     setIsSubmitting(true);
@@ -206,16 +221,17 @@ export default function CreateEventForm({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization :`Bearer ${token}`
         },
         body: JSON.stringify(eventData),
       }
     );
 
-    const data = await res.json();
+    const result = await res.json();
 
-    if (!res.ok || data.acknowledged !== true) {
+    if (!res.ok || result.acknowledged !== true) {
       throw new Error(
-        data.message || "Failed to create event."
+        result.message || "Failed to create event."
         
       );
     }

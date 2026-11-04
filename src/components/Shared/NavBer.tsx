@@ -4,7 +4,7 @@
 import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname,useSearchParams, useRouter  } from "next/navigation";
 import {
   CalendarDays,
   Home,
@@ -13,6 +13,7 @@ import {
   X,
   ChevronRight,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
@@ -30,11 +31,30 @@ const navItems = [
 
 // Main Navbar Content
 function NavBerContent() {
-  const { data: session } = useSession();
+  const { data: session ,isPending } = useSession();
   const user = session?.user;
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+  if (isPending) return;
+
+  if (
+    searchParams.get("login") === "success" &&
+    user
+  ) {
+    toast.success("Login Successful!", {
+      description: `Welcome back, ${user.name}!`,
+      duration: 3000,
+    });
+
+    router.replace(pathname, { scroll: false });
+  }
+}, [isPending, user, searchParams, pathname, router]);
+
 
   // Close menu with Escape key
   useEffect(() => {

@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { CalendarDays, Heart, ArrowRight, Leaf } from "lucide-react";
 import { redirect } from "next/navigation";
+import JoinedCard from "@/components/EventCard/JoinedCard";
 
 const JoinedEventsPage = async () => {
   await connection();
@@ -18,13 +19,24 @@ const JoinedEventsPage = async () => {
 
   const user = session?.user;
 
+  const jwtToken = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const token = jwtToken?.token;
+
   if (!user?.email) {
     redirect("/login");
   }
 
   // Fetch joined events
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/joined-events/${encodeURIComponent(user.email)}`
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/joined-events/${encodeURIComponent(user.email)}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
   );
 
   if (!res.ok) {
@@ -124,7 +136,7 @@ const JoinedEventsPage = async () => {
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {data.map((event) => (
-                <EventCard key={event._id} event={event} />
+                <JoinedCard key={event._id} event={event} />
               ))}
             </div>
 

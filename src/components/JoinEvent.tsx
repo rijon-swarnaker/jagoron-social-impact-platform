@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowUpRight,
   Heart,
@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { EventProps } from "@/Types/EventsType";
 import { toast } from "sonner";
 
@@ -21,6 +21,42 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
   const [isJoined, setIsJoined] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
 
+  // Volunteer Count State
+  const [joinCount, setJoinCount] = useState(0);
+  const [countLoading, setCountLoading] = useState(true);
+
+  // Fetch Event Join Count
+  useEffect(() => {
+    const FetchJoinCount = async () => {
+      try {
+        setCountLoading(true);
+
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/event-join-count/${data._id}`
+        );
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            result.message || "Failed to fetch join count!"
+          );
+        }
+
+        if (result.success) {
+          setJoinCount(result.count);
+        }
+      } catch (error) {
+        console.error("Fetch Join Count Error:", error);
+      } finally {
+        setCountLoading(false);
+      }
+    };
+
+    FetchJoinCount();
+  }, [data._id]);
+
+  // Handle Join Event
   const HandleJoinEvent = async () => {
     if (!user) {
       toast.error("Please login first!");
@@ -32,7 +68,16 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
     setIsJoining(true);
 
     try {
-      // Keep ALL existing event and user information
+
+      const { data: tokenData, error } = await authClient.token();
+
+      const token = tokenData?.token;
+
+      if (error || !token) {
+        throw new Error("Unable to verify your session. Please login again!");
+      }
+
+      // Prepare Join Data
       const fromData = {
         ...data,
         ...user,
@@ -46,6 +91,7 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(fromData),
         }
@@ -67,11 +113,14 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
 
       if (result.success) {
         toast.success("Successfully Joined Event!");
+
         setIsJoined(true);
+
+        // Update Volunteer Count
+        setJoinCount((prev) => prev + 1);
       } else {
         toast.error(result.message || "Something went wrong!");
       }
-
     } catch (error) {
       console.error("Join Event Error:", error);
 
@@ -80,7 +129,6 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
           ? error.message
           : "Failed to join event!"
       );
-
     } finally {
       setIsJoining(false);
     }
@@ -106,6 +154,17 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
               <p className="mt-1 text-[10px] text-gray-500 dark:text-muted-foreground">
                 Be part of something meaningful. Make a difference!
               </p>
+
+              {/* Volunteer Count */}
+              <div className="mt-2 flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400">
+                <Users size={12} />
+
+                <span className="text-[10px] font-semibold">
+                  {countLoading
+                    ? "Loading volunteers..."
+                    : `${joinCount} Volunteers Joined`}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -124,6 +183,7 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
                   await navigator.clipboard.writeText(
                     window.location.href
                   );
+
                   toast.success("Event link copied!");
                 } catch {
                   toast.error("Unable to copy event link!");
@@ -160,7 +220,6 @@ const JoinEvent = ({ data }: { data: EventProps }) => {
                 <ArrowUpRight size={13} className="shrink-0" />
               )}
             </Button>
-
           </div>
         </div>
       </div>

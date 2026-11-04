@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -11,7 +10,6 @@ import {
   Heart,
   Mail,
   MapPin,
-  Pencil,
   Trash2,
 } from "lucide-react";
 
@@ -23,14 +21,13 @@ import { EventProps } from "@/Types/EventsType";
 import { Button } from "../ui/button";
 import { redirect, useRouter } from "next/navigation";
 import EventEditFrom from "../EventEditFrom";
+import { authClient } from "@/lib/auth-client";
 
 type EventCardProps = {
   event: EventProps;
-  
 };
 
 const ManageCard = ({ event }: EventCardProps) => {
-
   const formatDate = (date: string) => {
     return new Date(date + "T00:00:00").toLocaleDateString("en-US", {
       weekday: "short",
@@ -40,35 +37,38 @@ const ManageCard = ({ event }: EventCardProps) => {
     });
   };
 
-const router = useRouter();
+  const router = useRouter();
 
-const HandleDeleteEvent = async () => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-events/${event._id}`,
-      {
-        method: "DELETE",
+  const HandleDeleteEvent = async () => {
+    const { data: tokenData, error } = await authClient.token();
+    const token = tokenData?.token;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-events/${event._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Failed to delete event!");
+        return;
       }
-    );
 
-    const data = await res.json();
+      toast.success("Event deleted successfully! 🎉");
 
-    if (!res.ok) {
-      toast.error(data.message || "Failed to delete event!");
-      return;
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong!");
     }
-
-    toast.success("Event deleted successfully! 🎉");
-
-    router.refresh();
-
-  } catch (error) {
-    console.error(error);
-    toast.error("Something went wrong!");
-  }
-};
-
-  
+  };
 
   return (
     <Card
@@ -96,9 +96,7 @@ const HandleDeleteEvent = async () => {
         {/* Date Badge */}
         <Badge className="absolute right-3 top-3 flex max-w-[65%] items-center gap-1.5 truncate rounded-full border-0 bg-emerald-950/90 px-3 py-1.5 text-[10px] font-semibold text-white shadow-md sm:text-xs">
           <CalendarDays size={13} className="shrink-0" />
-          <span className="truncate">
-            {formatDate(event.eventDate)}
-          </span>
+          <span className="truncate">{formatDate(event.eventDate)}</span>
         </Badge>
       </div>
 
@@ -130,17 +128,13 @@ const HandleDeleteEvent = async () => {
             />
 
             <AvatarFallback className="bg-emerald-100 text-sm font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-400">
-              {event.organizerEmail
-                ?.split("@")[0]
-                ?.slice(0, 2)
-                .toUpperCase() || "OR"}
+              {event.organizerEmail?.split("@")[0]?.slice(0, 2).toUpperCase() ||
+                "OR"}
             </AvatarFallback>
           </Avatar>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] text-muted-foreground">
-              Organized by
-            </p>
+            <p className="text-[11px] text-muted-foreground">Organized by</p>
 
             <p className="truncate text-sm font-bold text-foreground">
               {event.organizerEmail?.split("@")[0] || "Organizer"}
@@ -155,7 +149,6 @@ const HandleDeleteEvent = async () => {
 
         {/* Three Action Buttons */}
         <div className="grid grid-cols-3 gap-2">
-
           {/* View Button */}
           <Link
             href={`/upcoming-events/${event._id}`}
@@ -166,23 +159,19 @@ const HandleDeleteEvent = async () => {
           </Link>
 
           {/* Edit Button */}
-        
-            
-           <EventEditFrom key={event._id} event={event}/>
-      
+
+          <EventEditFrom key={event._id} event={event} />
 
           {/* Delete Button */}
           <Button
             type="button"
             variant={"destructive"}
             onClick={HandleDeleteEvent}
-
             className="flex min-h-10 items-center justify-center gap-1.5 rounded-lg  px-2 text-xs font-bold text-white transition hover:bg-red-700 sm:text-sm"
           >
             <Trash2 size={15} />
             Delete
           </Button>
-
         </div>
       </CardContent>
     </Card>

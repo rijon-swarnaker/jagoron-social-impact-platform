@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { signUp } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 // Email validation
@@ -212,6 +212,29 @@ export default function RegisterPage() {
       });
     }
   }
+
+ const HandleGoogleSignUp = async () => {
+  try {
+    const { error } = await signIn.social({
+      provider: "google",
+      callbackURL: "/?login=success",
+    });
+
+    if (error) {
+      toast.error("Google Login Failed!", {
+        description: error.message || "Please try again.",
+      });
+    }
+  } catch (error) {
+    toast.error("Google Login Failed!", {
+      description:
+        error instanceof Error
+          ? error.message
+          : "Something went wrong!",
+    });
+  }
+};
+ 
 
   return (
     <div
@@ -492,6 +515,7 @@ export default function RegisterPage() {
           <Button
             type="button"
             variant="outline"
+            onClick={HandleGoogleSignUp}
             className="h-12 w-full rounded-2xl border-[#dbe9e2] bg-white text-sm font-semibold  hover:border-[#bfdcca] hover:bg-[#f6fcf9] focus-visible:ring-brand-strong/30 dark:border-[#365344] dark:bg-[#1d3327] dark:text-white dark:hover:border-[#52715e] dark:hover:bg-[#294535]"
           >
             <FcGoogle className="size-7" />

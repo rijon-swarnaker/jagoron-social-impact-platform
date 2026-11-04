@@ -276,13 +276,13 @@ const EventDetailsPage = async ({
                         />
 
                         <AvatarFallback className="bg-emerald-50 text-sm font-bold text-emerald-700">
-                          {data.organizerName?.charAt(0).toUpperCase()}
+                          {data.organizerEmail?.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
 
                       <div className="min-w-0">
                         <h4 className="truncate text-[11px] font-bold">
-                          {data.organizerName}
+                          {data.organizerEmail?.split("@")[0] || "Organizer"}
                         </h4>
 
                         <p className="mt-1 flex items-center gap-1 truncate text-[9px] text-gray-500">

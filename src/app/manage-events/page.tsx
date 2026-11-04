@@ -1,6 +1,5 @@
 
 import Link from "next/link";
-import Image from "next/image";
 
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
@@ -8,11 +7,7 @@ import { redirect } from "next/navigation";
 
 import {
   CalendarDays,
-  MapPin,
   Plus,
-  Pencil,
-  Trash2,
-  Eye,
   LayoutDashboard,
   Users,
   CalendarCheck,
@@ -29,31 +24,10 @@ import { Button } from "@/components/ui/button";
 
 import { Badge } from "@/components/ui/badge";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-
-import { Separator } from "@/components/ui/separator";
 import { EventProps } from "@/Types/EventsType";
 import ManageCard from "@/components/EventCard/ManageCard";
 
-// Format event date safely
-const formatEventDate = (date: string) => {
-  const parsedDate = new Date(date);
 
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "Date unavailable";
-  }
-
-  return parsedDate.toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-};
 
 const ManageEventsPage = async () => {
   // Get current user session
@@ -62,6 +36,14 @@ const ManageEventsPage = async () => {
   });
 
   const user = session?.user;
+
+  const jwtToken = await auth.api.getToken({
+    headers: await headers()
+  })
+
+  
+  const token = jwtToken?.token
+  
 
   // Authentication check
   if (!user?.email) {
@@ -75,9 +57,10 @@ const ManageEventsPage = async () => {
   try {
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-events/${encodeURIComponent(user.email)}`,
-      {
-        cache: "no-store",
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/manage-events/${encodeURIComponent(user.email)}`,{
+        headers:{
+          authorization :`Bearer ${token}`
+        }
       }
     );
 
@@ -96,7 +79,7 @@ const ManageEventsPage = async () => {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ================= HEADER ================= */}
-        <section className="mb-8 rounded-2xl border border-green-100 bg-gradient-to-br from-white via-green-50/60 to-emerald-50/80 p-5 shadow-sm dark:border-green-900/40 dark:from-card dark:via-card dark:to-green-950/20 sm:p-7 lg:p-9">
+        <section className="mb-8 rounded-2xl border border-green-100 bg-linear-to-br from-white via-green-50/60 to-emerald-50/80 p-5 shadow-sm dark:border-green-900/40 dark:from-card dark:via-card dark:to-green-950/20 sm:p-7 lg:p-9">
 
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
 
@@ -173,7 +156,7 @@ const ManageEventsPage = async () => {
                   Event Organizer
                 </p>
 
-                <h2 className="mt-2 break-words text-xl font-bold text-slate-900 dark:text-foreground">
+                <h2 className="mt-2 wrap-break-word text-xl font-bold text-slate-900 dark:text-foreground">
                   {user.name || "Organizer"}
                 </h2>
 

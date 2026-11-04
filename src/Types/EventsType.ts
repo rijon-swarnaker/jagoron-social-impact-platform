@@ -9,4 +9,5 @@ export interface EventProps {
   organizerEmail: string;
   organizerPhoto: string;
   organizerName: string
+  eventId:string
 }

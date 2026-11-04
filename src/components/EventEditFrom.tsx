@@ -30,6 +30,7 @@ import { CalendarDays, Image as ImageIcon, MapPin, Pencil } from "lucide-react";
 
 import { EventProps } from "@/Types/EventsType";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 // Form Data Type
 type EventFormData = {
@@ -69,7 +70,11 @@ const EventEditFrom = ({ event }: { event: EventProps }) => {
   // Handle Submit
 
   const HandleOnSubmit = async () => {
+    const {data:tokenData , error}= await authClient.token()
+        const token = tokenData?.token
     try {
+       
+
       const updatedEvent: EventFormData = {
         title: formData.title,
         description: formData.description,
@@ -85,6 +90,7 @@ const EventEditFrom = ({ event }: { event: EventProps }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization :`Bearer ${token}`
           },
           body: JSON.stringify(updatedEvent),
         },
