@@ -69,26 +69,6 @@ Jagoron follows a client-server architecture.
                       Data Persistence
 ```
 
-## Project Structure
-
-```text
-jagoron/
-│
-├── client/
-│   ├── public/
-│   ├── src/
-│   │   ├── app/
-│   │   ├── components/
-│   │   ├── lib/
-│   │   └── Types/
-│   ├── package.json
-│   └── README.md
-│
-└── server/
-    ├── index.js
-    ├── package.json
-    └── README.md
-```
 
 ## Getting Started
 
